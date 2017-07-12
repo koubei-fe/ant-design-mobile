@@ -3,7 +3,7 @@ const pxtorem = require('postcss-pxtorem');
 const commonConfig = require('./bisheng.common.config');
 
 module.exports = Object.assign({}, commonConfig, {
-  port: 8002,
+  port: 8009,
   source: {
     components: './components',
   },
