@@ -5,6 +5,7 @@
 @subMenuPrefixCls: am-sub-menu;
 @flexPrefixCls: am-flexbox;
 @listPrefixCls: am-list;
+@checkboxPrefixCls: am-checkbox;
 @firstMenuColor: #f7f7f7;
 
 .@{menuPrefixCls} {
@@ -25,6 +26,25 @@
           .@{listPrefixCls}-line {
             .@{listPrefixCls}-content {
               font-size: @link-button-font-size;
+            }
+            .@{listPrefixCls}-extra {
+              .@{checkboxPrefixCls}-wrapper {
+                .@{checkboxPrefixCls} {
+                  position: absolute;
+                  top: 0;
+                  left: 0;
+                  right: 0;
+                  bottom: 0;
+                  width: 100%;
+                  height: .88rem;
+                  overflow: visible;
+
+                  .@{checkboxPrefixCls}-inner {
+                    top: .24rem;
+                    right: .3rem;
+                  }
+                }
+              }
             }
           }
         }

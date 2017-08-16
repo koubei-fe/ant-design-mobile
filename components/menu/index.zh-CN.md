@@ -21,4 +21,7 @@ subtitle: 菜单
 | level    |  菜单级数，可选1/2  | number  | 2 |
 | value    |  初始值，一级和二级筛选数据的`value`组成的数组  | Array | |
 | onChange    |   选择后的回调函数    | (item: Object): void  |  |
+| onOk    |  多选状态下确认按钮回调  | (value: Object): void  |  |
+| onCancel    |   多选状态下取消按钮回调  | (): void  |  |
 | height    |   筛选组件的高度   | number  | `document.documentElement.clientHeight / 2` |
+| multSelect    |   是否支持菜单多选  | boolean  | false |

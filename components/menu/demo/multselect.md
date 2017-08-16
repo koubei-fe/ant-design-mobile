@@ -1,8 +1,8 @@
 ---
-order: 0
+order: 1
 title:
-  zh-CN: 菜单
-  en-US: Menu
+  zh-CN: 菜单多选
+  en-US: Menu Multiple Select
 ---
 
 ````jsx
@@ -79,7 +79,7 @@ const data = [
   },
 ];
 
-class MenuExample extends React.Component {
+class MultMenuExample extends React.Component {
   constructor(...args) {
     super(...args);
     this.state = {
@@ -127,6 +127,7 @@ class MenuExample extends React.Component {
         value={['1', '3']}
         onChange={this.onChange}
         height={document.documentElement.clientHeight * 0.6}
+        multSelect
       />
       );
     const loadingEl = (
@@ -144,7 +145,7 @@ class MenuExample extends React.Component {
             onLeftClick={this.handleClick}
             className="top-nav-bar"
           >
-            Basic menu
+            Multselect menu
           </NavBar>
         </div>
         {show ? initData ? menuEl : loadingEl : null}
@@ -153,7 +154,7 @@ class MenuExample extends React.Component {
   }
 }
 
-ReactDOM.render(<MenuExample />, mountNode);
+ReactDOM.render(<MultMenuExample />, mountNode);
 ````
 
 ```css
