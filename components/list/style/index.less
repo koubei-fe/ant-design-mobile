@@ -249,6 +249,41 @@
   }
 }
 
+.@{listPrefixCls}-preload {
+  .@{listPrefixCls}-item {
+    .@{listPrefixCls}-content, .@{listPrefixCls}-brief, .@{listPrefixCls}-extra{
+      color: #f1f1f1;
+      background: #f1f1f1;
+    }
+  }
+  .@{listPrefixCls}-header{
+    color: transparent;
+    // background: #f1f1f1;
+  }
+  .@{listPrefixCls}-body{
+    border-top: 1PX solid transparent;
+    div:not(:last-child) .@{listPrefixCls}-line:after {
+      border-bottom: 1PX solid transparent;
+    }
+  }
+  .@{listPrefixCls}-body:after{
+    border-bottom: 1PX solid transparent;
+  }
+  .@{listPrefixCls}-item .@{listPrefixCls}-line .@{listPrefixCls}-arrow{
+    background: #f1f1f1;
+    background-image: none;
+  }
+}
+.@{listPrefixCls}-preload-text{
+  color: #f1f1f1;
+  background: #f1f1f1;
+}
+
+.@{listPrefixCls}-preload-text{
+  color: #f1f1f1;
+  background: #f1f1f1;
+}
+
 @keyframes ripple {
   100% {
     opacity: 0;

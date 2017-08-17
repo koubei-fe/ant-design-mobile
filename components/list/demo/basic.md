@@ -8,6 +8,7 @@ title:
 
 ````jsx
 import { List } from 'antd-mobile';
+import classNames from 'classnames';
 
 const Item = List.Item;
 const Brief = Item.Brief;
@@ -15,16 +16,33 @@ const Brief = Item.Brief;
 class ListExample extends React.Component {
   state = {
     disabled: false,
+    isLoading: true,
   }
   handleLongPress = (e) => {
     console.log('longpress toggled', e);
   }
+  componentDidMount() {
+    setTimeout(() => {
+      this.setState({
+        isLoading: false,
+      });
+    }, 3000);
+  }
   render() {
+    const preloadCls = classNames({
+      'am-list-preload': this.state.isLoading,
+      'my-list': true,
+    });
+    const preloadThumb1 = this.state.isLoading? 'https://gw.alipayobjects.com/zos/rmsportal/AVcIFnjAUgNikZoqTfEi.jpg' : 'https://zos.alipayobjects.com/rmsportal/dNuvNrtqUztHCwM.png';
     return (<div>
-      <List renderHeader={() => 'Basic Style'} className="my-list">
-        <Item extra={'extra content'} onLongPress={this.handleLongPress}>Title</Item>
+      <List renderHeader={() => 'Basic Style'} className={preloadCls}>
+        <Item extra={'extra content'} onLongPress={this.handleLongPress} >Title</Item>
+        <Item extra={'extra content'} onLongPress={this.handleLongPress} >Title</Item>
       </List>
-      <List renderHeader={() => 'Subtitle'} className="my-list">
+      <List renderHeader={() => 'Subtitle'} className={preloadCls}>
+        <Item arrow="horizontal" multipleLine>
+          Title <Brief>subtitle</Brief>
+        </Item>
         <Item arrow="horizontal" multipleLine>
           Title <Brief>subtitle</Brief>
         </Item>
@@ -38,18 +56,18 @@ class ListExample extends React.Component {
         </Item>
         <Item
           arrow="horizontal"
-          thumb="https://zos.alipayobjects.com/rmsportal/dNuvNrtqUztHCwM.png"
+          thumb={preloadThumb1}
           multipleLine
           onClick={() => {}}
         >
           Title <Brief>subtitle</Brief>
         </Item>
       </List>
-      <List renderHeader={() => 'Customized Right Side（Empty Content / Text / Image）'} className="my-list">
+      <List renderHeader={() => 'Customized Right Side（Empty Content / Text / Image）'} className={preloadCls}>
         <Item>Title</Item>
         <Item arrow="horizontal" onClick={() => {}}>Title</Item>
         <Item extra="extra content" arrow="horizontal" onClick={() => {}}>Title</Item>
-        <Item extra="10:30" align="top" thumb="https://zos.alipayobjects.com/rmsportal/dNuvNrtqUztHCwM.png" multipleLine>
+        <Item extra="10:30" align="top" thumb={preloadThumb1} multipleLine>
           Title <Brief>subtitle</Brief>
         </Item>
       </List>
@@ -60,7 +78,7 @@ class ListExample extends React.Component {
       </List>
       <List renderHeader={() => 'Icon in the left'}>
         <Item
-          thumb="https://zos.alipayobjects.com/rmsportal/dNuvNrtqUztHCwM.png"
+          thumb={preloadThumb1}
           arrow="horizontal"
           onClick={() => {}}
         >My wallet</Item>
