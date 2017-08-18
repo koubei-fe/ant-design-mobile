@@ -136,9 +136,11 @@ export default class Menu extends React.Component<MenuProps, any> {
       showSelect = false;
     }
 
-    const heightStyle = {
-      height: `${Math.round(height || document.documentElement.clientHeight / 2)}px`,
-    };
+    const menuHeight = Math.round(height || document.documentElement.clientHeight / 2);
+    const ListHeight = menuHeight -
+      (multSelect ?
+      parseInt(document.getElementsByTagName('html')[0].style.fontSize as string, 10)
+      : 0);
 
     return (
       <div
@@ -146,17 +148,20 @@ export default class Menu extends React.Component<MenuProps, any> {
           [prefixCls as string]: true,
           [className as string]: !!className,
         })}
-        style={{ position: 'relative' }}
+        style={{
+          position: 'relative',
+          height: `${menuHeight}px`,
+        }}
       >
       <div
         style={{
           ...style,
-          ...heightStyle,
+          height: `${ListHeight}px`,
         }}
       >
         <Flex align="top">
           {level === 2 &&
-            <Flex.Item style={heightStyle}>
+            <Flex.Item style={{ height: `${ListHeight}px` }}>
               <List role="tablist">
                 {data.map((dataItem, index) => (
                   <List.Item
@@ -172,7 +177,7 @@ export default class Menu extends React.Component<MenuProps, any> {
               </List>
             </Flex.Item>
           }
-          <Flex.Item role="tabpanel" aria-hidden="false" style={heightStyle}>
+          <Flex.Item role="tabpanel" aria-hidden="false" style={{ height: `${ListHeight}px` }}>
             <SubMenu
               subMenuPrefixCls={this.props.subMenuPrefixCls}
               radioPrefixCls={this.props.radioPrefixCls}
@@ -192,6 +197,7 @@ export default class Menu extends React.Component<MenuProps, any> {
             bottom: 0,
             height: '1rem',
             width: '100%',
+            zIndex: 2,
           }}
         >
           <Button
