@@ -149,7 +149,6 @@ export default class Menu extends React.Component<MenuProps, any> {
           [className as string]: !!className,
         })}
         style={{
-          position: 'relative',
           height: `${menuHeight}px`,
         }}
       >

@@ -1,5 +1,5 @@
 ---
-order: 1
+order: 2
 title:
   zh-CN: 菜单多选
   en-US: Menu Multiple Select
@@ -88,20 +88,14 @@ class MultMenuExample extends React.Component {
     };
   }
   onChange = (value) => {
-    let label = '';
-    data.forEach((dataItem) => {
-      if (dataItem.value === value[0]) {
-        label = dataItem.label;
-        if (dataItem.children && value[1]) {
-          dataItem.children.forEach((cItem) => {
-            if (cItem.value === value[1]) {
-              label += ` ${cItem.label}`;
-            }
-          });
-        }
-      }
-    });
-    console.log(label);
+    console.log(value);
+  }
+  onOk = (value) => {
+    console.log(value);
+    this.onCancel();
+  }
+  onCancel = () => {
+    this.setState({ show: false });
   }
   handleClick = (e) => {
     e.preventDefault(); // Fix event propagation on Android
@@ -122,28 +116,30 @@ class MultMenuExample extends React.Component {
     const { initData, show } = this.state;
     const menuEl = (
       <Menu
-        className="foo-menu"
+        className="mult-foo-menu"
         data={initData}
         value={['1', '3']}
         onChange={this.onChange}
+        onOk={this.onOk}
+        onCancel={this.onCancel}
         height={document.documentElement.clientHeight * 0.6}
         multSelect
       />
       );
     const loadingEl = (
-      <div style={{ width: '100%', height: document.documentElement.clientHeight * 0.6, display: 'flex', justifyContent: 'center' }}>
+      <div style={{ position: 'absolute', width: '100%', height: document.documentElement.clientHeight * 0.6, display: 'flex', justifyContent: 'center' }}>
         <ActivityIndicator size="large" />
       </div>
     );
     return (
-      <div className={show ? 'menu-active' : ''}>
+      <div className={show ? 'mult-menu-active' : ''}>
         <div>
           <NavBar
             leftContent="Menu"
             mode="light"
             iconName={require('./menu.svg')}
             onLeftClick={this.handleClick}
-            className="top-nav-bar"
+            className="mult-top-nav-bar"
           >
             Multselect menu
           </NavBar>
@@ -158,20 +154,21 @@ ReactDOM.render(<MultMenuExample />, mountNode);
 ````
 
 ```css
-.foo-menu {
-  position: relative;
-  z-index: 1000 !important;
+.mult-foo-menu {
+  position: absolute;
+  z-index: 80 !important;
+  width: 100%;
 }
-.top-nav-bar {
+.mult-top-nav-bar {
   position: relative;
-  z-index: 1000 !important;
+  z-index: 80 !important;
   background-color: #008AE6;
   color: #FFF;
 }
 .am-navbar-title {
   color: #FFF!important;
 }
-.menu-active:after {
+.mult-menu-active:after {
   content: ' ';
   position: absolute;
   top: 0;
@@ -179,5 +176,6 @@ ReactDOM.render(<MultMenuExample />, mountNode);
   height: 100%;
   background-color: #000;
   opacity: 0.4;
+  z-index: 79;
 }
 ```
