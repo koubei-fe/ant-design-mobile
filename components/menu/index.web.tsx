@@ -190,18 +190,10 @@ export default class Menu extends React.Component<MenuProps, any> {
         </Flex>
       </div>
       {multSelect &&
-        (<div
-          style={{
-            position: 'absolute',
-            bottom: 0,
-            height: '1rem',
-            width: '100%',
-            zIndex: 2,
-          }}
-        >
+        (<div className="am-mult-select-btns">
           <Button
             inline
-            style={{ width: '50%', height: '100%', borderRadius: '0' }}
+            className="am-mult-select-btns-btn"
             onClick={this.onMenuCancel}
           >
             取消
@@ -209,7 +201,7 @@ export default class Menu extends React.Component<MenuProps, any> {
           <Button
             inline
             type="primary"
-            style={{ width: '50%', height: '100%', borderRadius: '0' }}
+            className="am-mult-select-btns-btn"
             onClick={this.onMenuOk}
           >
             确定
