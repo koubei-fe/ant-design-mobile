@@ -1,6 +1,7 @@
 import React from 'react';
 import classNames from 'classnames';
 import { SearchBarProps, SearchBarState, defaultProps } from './PropsType';
+import getDataAttr from '../_util/getDataAttr';
 
 export default class SearchBar extends React.Component<SearchBarProps, SearchBarState> {
   static defaultProps = defaultProps;
@@ -151,9 +152,15 @@ export default class SearchBar extends React.Component<SearchBarProps, SearchBar
     }
     // 加上setTimeout 为了解决Android的兼容性问题。
     // https://github.com/ant-design/ant-design-mobile/issues/1341
-    setTimeout(() => {
-      (this.refs as any).searchInput.focus();
-    }, 0);
+    // 只有支付宝系客户端才完美支持
+    const ua = navigator.userAgent;
+    if (ua.indexOf('AlipayClient') > 0 && (ua.match(/Android/i) || ua.indexOf('AliApp(AM') < 0)) {
+      // 口碑掌柜iOS 只有5.2以上版本才支持
+      setTimeout(() => {
+        (this.refs as any).searchInput.focus();
+        this.componentDidUpdate();
+      }, 300);
+    }
   }
 
   onCancel = () => {
@@ -162,13 +169,12 @@ export default class SearchBar extends React.Component<SearchBarProps, SearchBar
     } else {
       this.onClear();
     }
-    (this.refs as any).searchInput.blur();
   }
 
   render() {
     const {
       prefixCls, showCancelButton, disabled, placeholder,
-      cancelText, className, style,
+      cancelText, className, style, maxLength,
     } = this.props;
 
     const { value, focus } = this.state;
@@ -214,6 +220,8 @@ export default class SearchBar extends React.Component<SearchBarProps, SearchBar
             onFocus={this.onFocus}
             onBlur={this.onBlur}
             ref="searchInput"
+            maxLength={maxLength}
+            {...getDataAttr(this.props)}
           />
           <a onClick={this.onClear} className={clearCls} />
         </div>

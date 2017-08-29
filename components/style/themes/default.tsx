@@ -28,7 +28,7 @@ export default {
   fill_mask: 'rgba(0, 0, 0, .4)',              // 遮罩背景
   fill_overlay_inverse: 'rgba(0, 0, 0, .8)',   // 浮层背景 _ 反色，用于 toast
   color_icon_base: '#ccc',                     // 许多小图标的背景，比如一些小圆点，加减号
-  toast_fill: 'rgba(0, 0, 0, .8)',
+  fill_grey: '#f7f7f7',
 
   // 透明度
   opacity_disabled: '0.3',   // switch checkbox radio 等组件禁用的透明度
@@ -41,6 +41,7 @@ export default {
   brand_error: '#f4333c',
   brand_hot: '#f96268',        // 用于推荐/促销/折扣
   brand_important: '#ff5b05',  // 用于小红点
+  brand_wait: '#108ee9',
 
   // 边框色
   border_color_base: '#ddd',
@@ -93,7 +94,6 @@ export default {
 
   // 高度
   // ---
-  option_height: 42,           // action_sheet、picker 的选项高度
   line_height_base: 1,           // 单行行高
   line_height_paragraph: 1.5,    // 多行行高
 
@@ -133,6 +133,11 @@ export default {
   link_button_fill_tap: '#ddd',
   link_button_font_size: 16,
 
+  // modal
+  modal_font_size_heading: 18,
+  modal_button_font_size: 18, // 按钮字号
+  modal_button_height: 50, // 按钮高度
+
   // list
   list_title_height: 30,
   list_item_height_sm: 35,
@@ -158,6 +163,9 @@ export default {
   tab_bar_fill: '#ebeeef',
   tab_bar_height: 50,
 
+  // toast
+  toast_fill: 'rgba(0, 0, 0, .8)',
+
   // search_bar
   search_bar_fill: '#efeff4',
   search_bar_height: 44,
@@ -178,6 +186,9 @@ export default {
 
   // table
   table_title_height: 30,
+
+  // picker
+  option_height: 42,            // picker 标题的高度
 
   toast_zindex: 1999,
   action_sheet_zindex: 1000,

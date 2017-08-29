@@ -24,6 +24,7 @@ import { getQuery } from '../../../../utils';
 
   return { localizedPageData: await pageDataPromise, locale };
 })
+
 export default class Demo extends React.Component {
   goToPage = (name, index) => () => {
     location.hash = `${name}-demo-${index}`;
@@ -98,8 +99,8 @@ export default class Demo extends React.Component {
           <a className="icon" href={`/${linkUrl}${window.location.search}`} />
           {demoMeta.title}
           {
-            !demoMeta.subtitle || locale === 'en-US' ? null :
-            <span className="ch">{demoMeta.subtitle}</span>
+            (!demoMeta.subtitle || locale === 'en-US') ?
+              null : <span className="ch">{demoMeta.subtitle}</span>
           }
         </div>
         { demoContent }

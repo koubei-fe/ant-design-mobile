@@ -1,14 +1,34 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import DocumentTitle from 'react-document-title';
-import classNames from 'classnames';
 import { FormattedMessage } from 'react-intl';
 import Icon from 'antd/lib/icon';
 import Popover from 'antd/lib/popover';
 import QRCode from 'qrcode.react';
+import classnames from 'classnames';
 import { getChildren } from 'jsonml.js/lib/utils';
+import throttleByAnimationFrame from 'antd/lib/_util/throttleByAnimationFrame';
 import Demo from './Demo';
 
+function getFixedMode(demoEl, inFixedDemoMode) {
+  const { top: demoTop, bottom: demoBottom } = demoEl.getBoundingClientRect();
+  if (inFixedDemoMode) {
+    if (demoTop > 0 || demoBottom < 600) {
+      return false;
+    }
+    return true;
+  }
+  if (demoTop < 0 && demoBottom > 600) {
+    return true;
+  }
+  return false;
+}
+
+function getDemos(props) {
+  return Object.keys(props.demos)
+    .map(key => props.demos[key])
+    .filter(demoData => !demoData.meta.hidden);
+}
 export default class ComponentDoc extends React.Component {
   static contextTypes = {
     intl: PropTypes.object,
@@ -18,19 +38,20 @@ export default class ComponentDoc extends React.Component {
     super(props);
 
     this.state = {
-      expandAll: false,
       currentIndex: this.getIndex(props),
-      // 收起展开代码的存储数组
-      codeExpandList: [],
       toggle: false,
+      inMultiDemoMode: getDemos(props).length >= 2,
+      inFixedDemoMode: false,
     };
+    this.handleScroll = throttleByAnimationFrame(this.doScroll);
   }
 
   getIndex(props) {
     const linkTo = props.location.hash.replace('#', '');
 
-    const demos = Object.keys(props.demos).map(key => props.demos[key])
-            .filter(demoData => !demoData.meta.hidden);
+    const demos = Object.keys(props.demos)
+      .map(key => props.demos[key])
+      .filter(demoData => !demoData.meta.hidden);
     const demoSort = demos.sort((a, b) => parseInt(a.meta.order, 10) - parseInt(b.meta.order, 10));
 
     demos.map((item, index) => {
@@ -43,12 +64,19 @@ export default class ComponentDoc extends React.Component {
   }
 
   componentWillReceiveProps = (nextProps) => {
+    const inMultiDemoMode = getDemos(nextProps).length >= 2;
+    if (!inMultiDemoMode && this.state.inMultiDemoMode) {
+      this.cleanScroll();
+    }
+    if (inMultiDemoMode && !this.state.inFixedDemoMode) {
+      this.bindScroll();
+    }
     this.setState({
       currentIndex: 0,
-      codeExpandList: [],
       toggle: false,
+      inMultiDemoMode,
+      inFixedDemoMode: false,
     });
-    this.initExpandAll(nextProps);
   }
 
   togglePreview = (e) => {
@@ -58,51 +86,38 @@ export default class ComponentDoc extends React.Component {
     });
   }
 
-  // 用于控制内部代码的展开和收起
-  handleCodeExpandList = (index, type) => {
-    const codeExpandList = { ...this.state.codeExpandList };
-    codeExpandList[index] = type;
-
-    this.setState({ codeExpandList });
-  }
-
-  handleExpandToggle = () => {
-    const codeExpandList = {};
-    // const { meta } = this.props.doc;
-    const props = this.props;
-    const demos = Object.keys(props.demos).map(key => props.demos[key])
-            .filter(demoData => !demoData.meta.hidden);
-
-    this.setState({
-      expandAll: !this.state.expandAll,
-      codeExpandList: demos.map((item, index) => codeExpandList[index] = !this.state.expandAll),
-    });
-  }
-
-  initExpandAll = (nextProps) => {
-    const codeExpandList = {};
-    const props = nextProps || this.props;
-    const demos = Object.keys(props.demos).map(key => props.demos[key])
-            .filter(demoData => !demoData.meta.hidden);
-
-    this.setState({
-      expandAll: true,
-      codeExpandList: demos.map((item, index) => codeExpandList[index] = true),
-    });
-  }
-
   componentDidMount() {
-    this.initExpandAll();
+    if (this.state.inMultiDemoMode) {
+      this.bindScroll();
+    }
   }
+  componentWillUnmount() {
+    this.cleanScroll();
+  }
+  doScroll = () => {
+    const demoEl = document.getElementById('demo-code');
 
+    const inFixedDemoMode = getFixedMode(demoEl, this.state.inFixedDemoMode);
+
+    if (this.state.inFixedDemoMode !== inFixedDemoMode) {
+      this.setState({ inFixedDemoMode });
+    }
+  }
+  bindScroll = () => {
+    document.addEventListener('scroll', this.handleScroll, false);
+    setTimeout(this.handleScroll, 0);
+  }
+  cleanScroll = () => {
+    document.removeEventListener('scroll', this.handleScroll, false);
+  }
   render() {
     const props = this.props;
     const { doc, location } = props;
     const { content, meta } = doc;
 
-    const demos = Object.keys(props.demos).map(key => props.demos[key])
-            .filter(demoData => !demoData.meta.hidden);
-    const expand = this.state.expandAll;
+    const demos = Object.keys(props.demos)
+      .map(key => props.demos[key])
+      .filter(demoData => !demoData.meta.hidden);
 
     const leftChildren = [];
 
@@ -114,22 +129,15 @@ export default class ComponentDoc extends React.Component {
           <Demo
             togglePreview={this.togglePreview}
             {...demoData}
-            handleCodeExpandList={this.handleCodeExpandList}
-            codeExpand={this.state.codeExpandList[index]}
             className={currentIndex === index ? 'code-box-target' : ''}
             key={index}
             index={index}
             currentIndex={currentIndex}
             utils={props.utils}
-            expand={expand}
             pathname={location.pathname}
           />,
         );
       });
-    const expandTriggerClass = classNames({
-      'code-box-expand-trigger': true,
-      'code-box-expand-trigger-active': expand,
-    });
 
     const protocol = window.location.protocol;
     const path = doc.meta.filename.split('/')[1];
@@ -148,6 +156,11 @@ export default class ComponentDoc extends React.Component {
     const search = this.context.intl.locale === 'zh-CN' ? '?lang=zh-CN' : '?lang=en-US';
     const iframeUrl = `${protocol}//${host}/${mainPath}/${path}${search}${hash}`;
 
+    const codeContainerCls = classnames('clearfix demo-code-container', {
+      'demo-code-container-mutli': this.state.inMultiDemoMode,
+      'demo-code-container-fixed': this.state.inFixedDemoMode,
+    });
+
     return (
       <DocumentTitle title={`${subtitle || chinese || ''} ${title || english} - Ant Design`}>
         <article>
@@ -159,30 +172,23 @@ export default class ComponentDoc extends React.Component {
               </Popover>
             </h1>
             {
-              props.utils.toReactComponent(
-              ['section', { className: 'markdown' }]
-              .concat(getChildren(content)),
+              props.utils.toReactComponent(['section', { className: 'markdown' }]
+                .concat(getChildren(content)),
               )
             }
 
             <section id="demoTitle" className="demo-title-wrapper">
               <h2 id="demoTitle" className="demo-title">
                 <FormattedMessage id="app.ComponentDoc.codeTitle" />
-                <Icon
-                  type="appstore"
-                  className={expandTriggerClass}
-                  title={<FormattedMessage id="app.ComponentDoc.codeExpand" />}
-                  onClick={this.handleExpandToggle}
-                />
               </h2>
             </section>
           </section>
 
-          <div id="demo-code" className="clearfix" style={{ paddingRight: 405 }}>
+          <div id="demo-code" className={codeContainerCls}>
             <div style={{ width: '100%', float: 'left' }}>
               {leftChildren}
             </div>
-            <div style={{ width: 405, padding: '0 0 0 30Px', positon: 'relative', float: 'right', minHeight: 300, marginRight: '-405Px' }}>
+            <div className="mobile-wrapper">
               <div id="aside-demo" className="aside-demo">
                 <div style={{ width: '377Px', height: '620Px' }}>
                   <div className="demo-preview-wrapper">
@@ -198,7 +204,13 @@ export default class ComponentDoc extends React.Component {
                       <iframe id="demoFrame"
                         name="demoFrame"
                         title="antd-mobile"
-                        style={{ width: '377Px', height: '548Px', border: '1Px solid #F7F7F7', borderTop: 'none', boxShadow: '0 2Px 4Px #ebebeb' }}
+                        style={{
+                          width: '377Px',
+                          height: '548Px',
+                          border: '1Px solid #F7F7F7',
+                          borderTop: 'none',
+                          boxShadow: '0 2Px 4Px #ebebeb',
+                        }}
                         src={iframeUrl}
                       />
                     </section>

@@ -13,7 +13,7 @@ function fixControlledValue(value) {
   return value;
 }
 
-const regexAstralSymbols = /[\uD800-\uDBFF][\uDC00-\uDFFF]/g;
+const regexAstralSymbols = /[\uD800-\uDBFF][\uDC00-\uDFFF]|\n/g;
 
 function countSymbols(text = '') {
   return text.replace(regexAstralSymbols, '_').length;
@@ -203,13 +203,17 @@ export default class TextareaItem extends React.Component<TextareaItemProps, Tex
       [`${prefixCls}-label-7`]: labelNumber === 7,
     });
     const characterLength = countSymbols(value);
+    const lengthCtrlProps: any = {};
+    if (count > 0) {
+      lengthCtrlProps.maxLength = (count - characterLength) + (value ? value.length : 0);
+    }
     return (
       <div className={wrapCls} style={style}>
         {title && <div className={labelCls}>{title}</div>}
         <div className={`${prefixCls}-control`}>
           <textarea
             ref="textarea"
-            maxLength={count}
+            {...lengthCtrlProps}
             {...otherProps}
             {...valueProps}
             onChange={this.onChange}

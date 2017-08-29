@@ -1,8 +1,8 @@
 /* tslint:disable:jsx-no-multiline-js */
 import React from 'react';
-import { View, Text, TextInput } from 'react-native';
+import { View, Text, TextInput, KeyboardAvoidingView } from 'react-native';
 import Modal from './Modal';
-import promptStyles from './style/prompt';
+import promptStyles, { IPromptStyle } from './style/prompt';
 
 export type ButtonType = {
   text: string;
@@ -17,7 +17,8 @@ export interface PropmptContainerProps {
   defaultValue?: string;
   actions: Array<ButtonType>;
   onAnimationEnd?: (visible: boolean) => void;
-  styles?: any;
+  styles?: IPromptStyle;
+  placeholders?: string[];
 }
 
 export default class PropmptContainer extends React.Component<PropmptContainerProps, any> {
@@ -49,7 +50,8 @@ export default class PropmptContainer extends React.Component<PropmptContainerPr
   }
 
   render() {
-    const { title, onAnimationEnd, message, type, actions, styles } = this.props;
+    const { title, onAnimationEnd, message, type, actions, placeholders } = this.props;
+    const styles = this.props.styles!;
     const { text, password } = this.state;
     const getArgs = function(func) {
       if (type === 'login-password') {
@@ -117,7 +119,7 @@ export default class PropmptContainer extends React.Component<PropmptContainerPr
         footer={footer}
         onAnimationEnd={onAnimationEnd}
       >
-        <View>
+        <KeyboardAvoidingView behavior="padding">
           {message && message.length && <Text style={styles.message}>{message}</Text>}
           <View style={styles.inputGroup}>
             { type !== 'secure-text' && (
@@ -128,6 +130,7 @@ export default class PropmptContainer extends React.Component<PropmptContainerPr
                     value={this.state.text}
                     style={styles.input}
                     underlineColorAndroid="transparent"
+                    placeholder={placeholders![0]}
                   />
                 </View>
               )
@@ -142,12 +145,13 @@ export default class PropmptContainer extends React.Component<PropmptContainerPr
                     value={this.state.password}
                     style={styles.input}
                     underlineColorAndroid="transparent"
+                    placeholder={placeholders![1]}
                   />
                 </View>
               )
             }
           </View>
-        </View>
+        </KeyboardAvoidingView>
       </Modal>
     );
   }

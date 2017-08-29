@@ -13,6 +13,66 @@ timeline: true
 * Major version release is not included in this schedule for breadking change and new features.
 
 ---
+## 1.6.3
+
+`2017-08-15`
+
+- **Bug fix**
+  - Fix `TextareaItem` calculate new line charater length。 ([#1265](https://github.com/ant-design/ant-design-mobile/issues/1265))
+
+- **Improve && Enhancement**
+  - `SwipeAction` ignore swipe vertical; ；Remove event binding when disabled; auto adjust swipe button width。 ([#1595](https://github.com/ant-design/ant-design-mobile/issues/1595))
+
+## 1.6.2
+
+`2017-08-13`
+
+- **Improve && Enhancement**
+  - `Tabs` support `data-*` attribute ([#1648](https://github.com/ant-design/ant-design-mobile/issues/1648))
+
+## 1.6.1
+
+`2017-08-12`
+
+- **Bug Fix**
+  - 修复 `TextareaItem` 输入表情符号计数不正确的bug ([#1670](https://github.com/ant-design/ant-design-mobile/pull/1670))
+  - 修复 `SwipeAction` 只设置 left 或者 right 时，相反一边还可以滑动的问题；([#1655](https://github.com/ant-design/ant-design-mobile/issues/1655))
+  - 修复 `RN InputItem` 自定义样式 color 不生效（被强制覆盖）的问题; ([#1471](https://github.com/ant-design/ant-design-mobile/issues/1471))
+  - 修复 `Toast[mask=false]` 时跟随页面滚动问题；([#1642](https://github.com/ant-design/ant-design-mobile/issues/1642))
+  - 修复 `ListView` 存在body滚动条的时候，无法实现滚动到顶部在下拉刷新; ([#1588](https://github.com/ant-design/ant-design-mobile/issues/1588))
+- **Improve && Enhancement**
+  - 网站导航栏高亮 ([#1534](https://github.com/ant-design/ant-design-mobile/issues/1534))
+
+
+## 1.6.0
+
+`2017-07-30`
+
+- **Feature**
+  - `Tabs` 新增支持`Badge` ([#1604](https://github.com/ant-design/ant-design-mobile/pull/1604))
+  - `Modal` 支持placeholder ([#1603](https://github.com/ant-design/ant-design-mobile/pull/1603))
+
+- **Bug Fix**
+  - 修复`SearchBar` `onClear`时存在的样式渲染问题 ([#1621](https://github.com/ant-design/ant-design-mobile/pull/1621))
+  - 修复`SearchBar` 支持data-* 属性. ([bbb358](https://github.com/ant-design/ant-design-mobile/commit/bbb35826872841f50ae31d795f67a97fd3231ca4))
+
+- **Improve && Enhancement**
+  - 网站优化 ([#1622](https://github.com/ant-design/ant-design-mobile/pull/1622))
+
+## 1.5.0
+
+`2017-07-22`
+
+- **Feature**
+  - `ListItem` 支持 `onLongPress`. ([#1533](https://github.com/ant-design/ant-design-mobile/pull/1533))
+
+- **Bug Fix**
+  - 修复 `Tabs` 滑动浮层覆盖 `Popup` 蒙版的问题。([#1512](https://github.com/ant-design/ant-design-mobile/pull/1512))
+  - 修复 `Switch` 在 android 上 0.5px 导致显示不正常的问题。([86dabf](https://github.com/ant-design/ant-design-mobile/commit/86dabfea9841695fbca5319b422f11a0ddb17184))
+  - 修复 React Native `Modal.prompt` 键盘遮挡的问题。([#1489](https://github.com/ant-design/ant-design-mobile/issues/1489))
+
+- **Improve && Enhancement**
+  - 增加对 `Icon` svg-sprite-loader 可能未正确配置的检测和 warning。([#1574](https://github.com/ant-design/ant-design-mobile/issues/1574))
 
 ## 1.4.2
 
@@ -26,7 +86,7 @@ timeline: true
 - **Improve && Enhancement**
   - 升级 Slider 依赖的 rc-slider 版本。
   - 部分组件文档国际化完善，增加部分组件测试用例。
-  
+
 
 ## 1.4.1
 

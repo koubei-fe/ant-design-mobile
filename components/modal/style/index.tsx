@@ -1,7 +1,27 @@
 import variables from '../../style/themes/default';
-import { StyleSheet } from 'react-native';
+import { StyleSheet, ViewStyle, TextStyle } from 'react-native';
 
-export default StyleSheet.create({
+export interface IModalStyle {
+  container: ViewStyle;
+  wrap: ViewStyle;
+  innerContainer: ViewStyle;
+  footer: ViewStyle;
+  header: TextStyle;
+  body: ViewStyle;
+  maskClosable: ViewStyle;
+  closeWrap: ViewStyle;
+  close: TextStyle;
+  buttonGroupH: ViewStyle;
+  buttonGroupV: ViewStyle;
+  buttonWrapH: ViewStyle;
+  buttonWrapV: ViewStyle;
+  buttonText: TextStyle;
+  operationContainer: ViewStyle;
+  operationBody: ViewStyle;
+  buttonTextOperation: TextStyle;
+}
+
+export default StyleSheet.create<any>({
   container: {
     zIndex: variables.modal_zindex,
   },
@@ -25,7 +45,7 @@ export default StyleSheet.create({
     borderBottomRightRadius: variables.radius_md,
   },
   header: {
-    fontSize: variables.font_size_heading,
+    fontSize: variables.modal_font_size_heading,
     color: variables.color_text_base,
     textAlign: 'center',
     paddingHorizontal: variables.h_spacing_lg,
@@ -63,6 +83,7 @@ export default StyleSheet.create({
     flexDirection: 'column',
   },
   buttonWrapH: {
+    height: variables.modal_button_height,
     flexGrow: 1,
     borderColor: variables.border_color_base,
     borderTopWidth: StyleSheet.hairlineWidth,
@@ -78,7 +99,7 @@ export default StyleSheet.create({
   buttonText: {
     textAlign: 'center',
     color: variables.color_link,
-    fontSize: variables.link_button_font_size,
+    fontSize: variables.modal_button_font_size,
     backgroundColor: 'transparent',
   },
   operationContainer: {

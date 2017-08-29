@@ -1,7 +1,7 @@
 import { StyleSheet } from  'react-native';
 import variables from '../../style/themes/default';
 
-export default StyleSheet.create({
+export default StyleSheet.create<any>({
   container: {
     height: variables.list_item_height + variables.border_width_sm,
     borderBottomWidth: StyleSheet.hairlineWidth,
@@ -24,6 +24,7 @@ export default StyleSheet.create({
     height: variables.list_item_height,
     backgroundColor: 'transparent',
     fontSize: variables.input_font_size,
+    color: variables.color_text_base,
   },
   extra: {
     marginLeft: variables.h_spacing_sm,

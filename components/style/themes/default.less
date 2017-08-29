@@ -24,7 +24,7 @@
 @fill-mask: rgba(0, 0, 0, 0.4);              // 遮罩背景
 @fill-overlay-inverse: rgba(58, 58, 58, 0.9);// 浮层背景 - 反色，用于 toast // deprecated
 @color-icon-base: #ccc;                      // 许多小图标的背景，比如一些小圆点，加减号
-@toast-fill: @fill-overlay-inverse;
+@fill-grey: #f7f7f7;
 
 // 透明度
 @opacity-disabled: 0.3;   // switch checkbox radio 等组件禁用的透明度
@@ -33,10 +33,11 @@
 @brand-primary: #108ee9;
 @brand-primary-tap: #1284d6;
 @brand-success: #6abf47;
-@brand-warning: #fefcec;
+@brand-warning: #ffc600;
 @brand-error: #f4333c;
 @brand-hot: #f96268;        // 用于推荐/促销/折扣
 @brand-important: #ff5b05;  // 用于小红点
+@brand-wait: #108ee9;
 
 // 边框色
 @border-color-base: #ddd;
@@ -89,7 +90,6 @@
 
 // 高度
 // ---
-@option-height: 84px;           // action-sheet、popover 等组件的选项高度
 @line-height-base: 1;           // 单行行高
 @line-height-paragraph: 1.5;    // 多行行高
 
@@ -131,6 +131,8 @@
 
 // modal
 @modal-font-size-heading: 36px;
+@modal-button-font-size: 36px; // 按钮字号
+@modal-button-height: 100px; // 按钮高度
 
 // list
 @list-title-height: 60px;
@@ -157,6 +159,9 @@
 // tab-bar
 @tab-bar-fill: #ebeeef;
 @tab-bar-height: 100px;
+
+// toast
+@toast-fill: @fill-overlay-inverse; // toast, activity-indicator 的背景颜色
 
 // search-bar
 @search-bar-fill: #efeff4;
@@ -186,6 +191,9 @@
 // table
 @table-title-height: 60px;
 
+// picker
+@option-height: 84px;           // picker 标题的高度
+
 // z-index
 @progress-zindex: 2000;
 @popover-zindex: 1999;
@@ -194,3 +202,4 @@
 @picker-zindex: 1000;
 @popup-zindex: 999;
 @modal-zindex: 999; // modal.alert 应该最大，其他应该较小
+@tabs-pagination-zindex: 999;

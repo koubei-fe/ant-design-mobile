@@ -1,7 +1,20 @@
-import { StyleSheet } from 'react-native';
+import { StyleSheet, ViewStyle, TextStyle } from 'react-native';
 import variables from '../../style/themes/default';
 
-export default StyleSheet.create({
+export interface ITabBarStyle {
+  tabbar: ViewStyle;
+  content: ViewStyle;
+  tabs: ViewStyle;
+  barItem: ViewStyle;
+  barIcon: ViewStyle;
+  barItemSelected: ViewStyle;
+  barItemTitle: TextStyle;
+  contentItem: ViewStyle;
+  contentItemSelected: ViewStyle;
+  badge: ViewStyle;
+  badgeText: TextStyle;
+}
+export default StyleSheet.create<any>({
   tabbar: {
     flex: 1,
   },
@@ -32,16 +45,16 @@ export default StyleSheet.create({
     marginTop: 2,
   },
   contentItem: {
-    zIndex: 1,
     position: 'absolute',
     top: 0,
     left: 0,
     right: 0,
     bottom: 0,
     backgroundColor: 'white',
+    height: 0,
   },
   contentItemSelected: {
-    zIndex: 3,
+    height: null,
   },
   badge: {
     minWidth: 20,
