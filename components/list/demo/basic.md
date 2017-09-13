@@ -33,7 +33,7 @@ class ListExample extends React.Component {
       'am-list-preload': this.state.isLoading,
       'my-list': true,
     });
-    const preloadThumb1 = this.state.isLoading? 'https://gw.alipayobjects.com/zos/rmsportal/AVcIFnjAUgNikZoqTfEi.jpg' : 'https://zos.alipayobjects.com/rmsportal/dNuvNrtqUztHCwM.png';
+    const preloadThumb1 = this.state.isLoading ? 'https://gw.alipayobjects.com/zos/rmsportal/AVcIFnjAUgNikZoqTfEi.jpg' : 'https://zos.alipayobjects.com/rmsportal/dNuvNrtqUztHCwM.png';
     return (<div>
       <List renderHeader={() => 'Basic Style'} className={preloadCls}>
         <Item extra={'extra content'} onLongPress={this.handleLongPress} >Title</Item>
